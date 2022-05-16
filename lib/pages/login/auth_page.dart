@@ -18,38 +18,64 @@ class _AuthPageState extends State<AuthPage> {
     final sizeWidth = MediaQuery.of(context).size.width;
     final sizeHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          AnimatedPositioned(
-            duration: defaultDuration,
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
             height: sizeHeight,
-            width: sizeWidth * 0.85,
-            left: _isShowLogin ? 0 : (-sizeWidth * 0.85) + (sizeWidth * 0.15),
-            child: GestureDetector(
-              onTap: (() {
-                setState(() {
-                  _isShowLogin = !_isShowLogin;
-                });
-              }),
-              child: const LoginPage(),
+            alignment: Alignment.center,
+            child: Stack(
+              children: [
+                AnimatedPositioned(
+                  duration: defaultDuration,
+                  height: sizeHeight,
+                  width: sizeWidth * 0.85,
+                  left: _isShowLogin
+                      ? 0
+                      : (-sizeWidth * 0.85) + (sizeWidth * 0.15),
+                  child: GestureDetector(
+                    onTap: (() {
+                      if (WidgetsBinding.instance.window.viewInsets.bottom >
+                          0.0) {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        setState(() {
+                          _isShowLogin = _isShowLogin;
+                        });
+                      } else {
+                        setState(() {
+                          _isShowLogin = !_isShowLogin;
+                        });
+                      }
+                    }),
+                    child: const LoginPage(),
+                  ),
+                ),
+                AnimatedPositioned(
+                  duration: defaultDuration,
+                  height: sizeHeight,
+                  width: sizeWidth * 0.85,
+                  left: _isShowLogin ? sizeWidth * 0.85 : sizeWidth * 0.15,
+                  child: GestureDetector(
+                    onTap: (() {
+                      if (WidgetsBinding.instance.window.viewInsets.bottom >
+                          0.0) {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        setState(() {
+                          _isShowLogin = _isShowLogin;
+                        });
+                      } else {
+                        setState(() {
+                          _isShowLogin = !_isShowLogin;
+                        });
+                      }
+                    }),
+                    child: const SignUpPage(),
+                  ),
+                ),
+              ],
             ),
           ),
-          AnimatedPositioned(
-            duration: defaultDuration,
-            height: sizeHeight,
-            width: sizeWidth * 0.85,
-            left: _isShowLogin ? sizeWidth * 0.85 : sizeWidth * 0.15,
-            child: GestureDetector(
-              onTap: (() {
-                setState(() {
-                  _isShowLogin = !_isShowLogin;
-                });
-              }),
-              child: const SignUpPage(),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

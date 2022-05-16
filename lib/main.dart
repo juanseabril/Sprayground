@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form_builder_validators/localization/l10n.dart';
 
 import 'pages/login/auth_page.dart';
 
@@ -16,8 +17,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.red,
+        fontFamily: 'CocogooseLightItalic',
       ),
       home: const AuthPage(),
+      localizationsDelegates: const [
+        FormBuilderLocalizations.delegate,
+      ],
     );
   }
 }
