@@ -28,10 +28,9 @@ class _SignUpFormState extends State<SignUpForm> {
           padding: EdgeInsets.only(
               left: sizeWidth * 0.09,
               right: sizeWidth * 0.09,
-              top: sizeHeight * 0.1,
-              bottom: sizeHeight * 0.05),
+              top: sizeHeight * 0.09,
+              bottom: sizeHeight * 0.04),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
               FormBuilderTextField(
                 textAlign: TextAlign.center,
@@ -47,7 +46,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 ]),
               ),
               SizedBox(
-                height: sizeHeight * 0.04,
+                height: sizeHeight * 0.025,
               ),
               FormBuilderTextField(
                 obscureText: true,
@@ -65,7 +64,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 ]),
               ),
               SizedBox(
-                height: sizeHeight * 0.04,
+                height: sizeHeight * 0.025,
               ),
               FormBuilderTextField(
                 name: 'password_confirm',
@@ -112,9 +111,9 @@ class _SignUpFormState extends State<SignUpForm> {
                   ),
                 ),
               ),
-              SizedBox(height: sizeHeight * 0.02),
+              SizedBox(height: sizeHeight * 0.015),
               const Text("--  ó Registrate con  --", style: fbContinue),
-              SizedBox(height: sizeHeight * 0.02),
+              SizedBox(height: sizeHeight * 0.015),
               Image.asset(
                 "assets/images/google_logo_sinfondo.png",
                 scale: 60,

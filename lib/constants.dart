@@ -15,6 +15,7 @@ const TextStyle fbLabelStyle =
     TextStyle(color: bgLogin, fontWeight: FontWeight.bold);
 const TextStyle fbContinue = TextStyle(
     color: Colors.white, fontSize: 15, fontFamily: 'CocogooseSemiLight');
+const TextStyle fbAlert = TextStyle(fontSize: 15, color: bgSignup);
 
 const OutlineInputBorder fbEnabledBorder = OutlineInputBorder(
   borderSide: BorderSide(color: bgLogin, width: 3),

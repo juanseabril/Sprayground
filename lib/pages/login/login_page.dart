@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
                       color: bgCardAuth,
                       borderRadius: BorderRadius.circular(35)),
                   child: const LoginForm(),
-                ),
+                )
               ],
             ),
           ),

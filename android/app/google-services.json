@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1054186921475",
+    "project_id": "sprayground-f4f19",
+    "storage_bucket": "sprayground-f4f19.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054186921475:android:d87534f94a5041b657b836",
+        "android_client_info": {
+          "package_name": "com.example.store"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1054186921475-32gs9aos6k5i53p18fp0cnu3ngfo7a77.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhMmEXGp9a2HI81uqB0dh2wGMsrG6Sl08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1054186921475-32gs9aos6k5i53p18fp0cnu3ngfo7a77.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
