@@ -96,7 +96,7 @@ class _LoginFormState extends State<LoginForm> {
                   if (_formLoginKey.currentState!.saveAndValidate()) {
                     print(_formLoginKey.currentState!.value['email']);
                     print(_formLoginKey.currentState!.value['password']);
-                    signIn();
+                    logIn();
                   }
                 },
                 child: Padding(
@@ -124,7 +124,7 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  Future signIn() async {
+  Future logIn() async {
     showDialog(
         context: context,
         barrierDismissible: false,

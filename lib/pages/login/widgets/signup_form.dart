@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../../constants.dart';
+import '../../../main.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);
@@ -15,6 +17,12 @@ class _SignUpFormState extends State<SignUpForm> {
   final _formSignUpKey = GlobalKey<FormBuilderState>();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
+  bool _isShowAlert = false;
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,20 +87,31 @@ class _SignUpFormState extends State<SignUpForm> {
                       errorText: 'No puede estar vacio'),
                   FormBuilderValidators.minLength(6,
                       errorText: 'Mínimo seis caracteres'),
-                  FormBuilderValidators.equal(_pass.text,
-                      errorText: 'Contraseñas no coinciden')
+                  (val) {
+                    if (_confirmPass.text != _pass.text) {
+                      return 'No coinciden';
+                    }
+                    return null;
+                  }
                 ]),
               ),
               const Expanded(
                 child: SizedBox(),
               ),
+              _isShowAlert
+                  ? Column(
+                      children: const [
+                        Text(
+                          "Correo ya fue registrado",
+                          style: fbAlert,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        )
+                      ],
+                    )
+                  : Container(),
               ElevatedButton(
-                onPressed: () {
-                  if (_formSignUpKey.currentState!.saveAndValidate()) {
-                    print(_formSignUpKey.currentState!.value['email']);
-                    print(_formSignUpKey.currentState!.value['password']);
-                  }
-                },
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
@@ -100,6 +119,13 @@ class _SignUpFormState extends State<SignUpForm> {
                     ),
                   ),
                 ),
+                onPressed: () {
+                  if (_formSignUpKey.currentState!.saveAndValidate()) {
+                    print(_formSignUpKey.currentState!.value['email']);
+                    print(_formSignUpKey.currentState!.value['password']);
+                    signUp();
+                  }
+                },
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: sizeWidth * 0.008,
@@ -123,5 +149,32 @@ class _SignUpFormState extends State<SignUpForm> {
         ),
       ),
     );
+  }
+
+  Future signUp() async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(child: CircularProgressIndicator()));
+
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _formSignUpKey.currentState!.value['email'].trim(),
+        password: _formSignUpKey.currentState!.value['password'].trim(),
+      );
+    } catch (e) {
+      if (e.toString() ==
+          "[firebase_auth/email-already-in-use] The email address is already in use by another account.") {
+        setState(() {
+          _isShowAlert = !_isShowAlert;
+        });
+      }
+      Navigator.of(context).pop();
+      print(e.toString());
+      print(_isShowAlert);
+      return e;
+    }
+
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }
