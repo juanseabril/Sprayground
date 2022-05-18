@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(
-                  "assets/images/sprayground_logo_white.png",
+                  "assets/images/logos/sprayground_logo_white.png",
                   scale: 1.2,
                 ),
                 Container(
@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
             left: sizeWidth * 0.19,
             top: sizeHeight * 0.15,
             child: Image.asset(
-              "assets/images/sprayground_logo_sinfondo.png",
+              "assets/images/logos/sprayground_logo_sinfondo.png",
               scale: 2.5,
             ),
           ),

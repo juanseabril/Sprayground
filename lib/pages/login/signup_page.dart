@@ -30,7 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(
-                  "assets/images/sprayground_logo_red.png",
+                  "assets/images/logos/sprayground_logo_red.png",
                   scale: 1.2,
                 ),
                 Container(
@@ -48,7 +48,7 @@ class _SignUpPageState extends State<SignUpPage> {
             left: sizeWidth * 0.19,
             top: sizeHeight * 0.15,
             child: Image.asset(
-              "assets/images/sprayground_logo_sinfondo.png",
+              "assets/images/logos/sprayground_logo_sinfondo.png",
               scale: 2.5,
             ),
           ),

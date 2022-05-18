@@ -113,9 +113,22 @@ class _LoginFormState extends State<LoginForm> {
               SizedBox(height: sizeHeight * 0.02),
               const Text("--  ó Continua con  --", style: fbContinue),
               SizedBox(height: sizeHeight * 0.02),
-              Image.asset(
-                "assets/images/google_logo_sinfondo.png",
-                scale: 60,
+              SizedBox(
+                height: sizeHeight * 0.05,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset(
+                      "assets/images/logos/google_logo_sinfondo.png",
+                    ),
+                    Image.asset(
+                      "assets/images/logos/facebook_logo_sinfondo.png",
+                    ),
+                    Image.asset(
+                      "assets/images/logos/instagram_logo_sinfondo.png",
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

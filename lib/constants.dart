@@ -46,3 +46,14 @@ const InputDecoration fbEmailDecoration = InputDecoration(
   floatingLabelAlignment: FloatingLabelAlignment.center,
   floatingLabelStyle: fbFloatingLabelStyle,
 );
+
+/// --- Clipper
+
+const TextStyle cNameStyle =
+    TextStyle(color: bgSignup, fontFamily: 'CocogooseLight', fontSize: 13);
+
+const TextStyle cPriceStyle =
+    TextStyle(color: bgSignup, fontFamily: 'CocogooseItalic', fontSize: 17);
+
+const TextStyle cStockStyle = TextStyle(
+    color: bgSignup, fontFamily: 'CocogooseItalicLight', fontSize: 13);

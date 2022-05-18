@@ -121,8 +121,6 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
                 onPressed: () {
                   if (_formSignUpKey.currentState!.saveAndValidate()) {
-                    print(_formSignUpKey.currentState!.value['email']);
-                    print(_formSignUpKey.currentState!.value['password']);
                     signUp();
                   }
                 },
@@ -140,9 +138,22 @@ class _SignUpFormState extends State<SignUpForm> {
               SizedBox(height: sizeHeight * 0.015),
               const Text("--  ó Registrate con  --", style: fbContinue),
               SizedBox(height: sizeHeight * 0.015),
-              Image.asset(
-                "assets/images/google_logo_sinfondo.png",
-                scale: 60,
+              SizedBox(
+                height: sizeHeight * 0.05,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset(
+                      "assets/images/logos/google_logo_sinfondo.png",
+                    ),
+                    Image.asset(
+                      "assets/images/logos/facebook_logo_sinfondo.png",
+                    ),
+                    Image.asset(
+                      "assets/images/logos/instagram_logo_sinfondo.png",
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -170,8 +181,6 @@ class _SignUpFormState extends State<SignUpForm> {
         });
       }
       Navigator.of(context).pop();
-      print(e.toString());
-      print(_isShowAlert);
       return e;
     }
 
