@@ -13,17 +13,18 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
-    final sizeWidth = MediaQuery.of(context).size.width;
     final sizeHeight = MediaQuery.of(context).size.height;
+    final sizeWidth = MediaQuery.of(context).size.width;
 
     return Container(
+      alignment: Alignment.center,
+      color: bgSignup,
       height: sizeHeight,
       width: sizeWidth,
-      color: bgSignup,
-      alignment: Alignment.center,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
+          /// --- Form
           Padding(
             padding: const EdgeInsets.only(bottom: 75, top: 30),
             child: Column(
@@ -34,16 +35,19 @@ class _SignUpPageState extends State<SignUpPage> {
                   scale: 1.2,
                 ),
                 Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(35),
+                    color: bgCardAuth,
+                  ),
                   height: sizeHeight * 0.7,
                   width: sizeWidth * 0.7,
-                  decoration: BoxDecoration(
-                      color: bgCardAuth,
-                      borderRadius: BorderRadius.circular(35)),
                   child: const SignUpForm(),
                 ),
               ],
             ),
           ),
+
+          /// --- Image
           Positioned(
             left: sizeWidth * 0.19,
             top: sizeHeight * 0.15,

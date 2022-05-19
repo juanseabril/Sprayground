@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:store/pages/login/widgets/social_login.dart';
 
 import '../../../constants.dart';
 import '../../../main.dart';
@@ -15,8 +16,8 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _formSignUpKey = GlobalKey<FormBuilderState>();
-  final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
+  final TextEditingController _pass = TextEditingController();
   bool _isShowAlert = false;
 
   @override
@@ -26,8 +27,8 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeWidth = MediaQuery.of(context).size.width;
     final sizeHeight = MediaQuery.of(context).size.height;
+    final sizeWidth = MediaQuery.of(context).size.width;
 
     return Center(
       child: FormBuilder(
@@ -41,11 +42,11 @@ class _SignUpFormState extends State<SignUpForm> {
           child: Column(
             children: [
               FormBuilderTextField(
+                decoration: fbEmailDecoration,
+                name: 'email',
+                style: fbColorWhite,
                 textAlign: TextAlign.center,
                 textInputAction: TextInputAction.next,
-                name: 'email',
-                decoration: fbEmailDecoration,
-                style: const TextStyle(color: bgSignup),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
                       errorText: 'No puede estar vacio'),
@@ -57,13 +58,13 @@ class _SignUpFormState extends State<SignUpForm> {
                 height: sizeHeight * 0.025,
               ),
               FormBuilderTextField(
+                controller: _pass,
+                decoration: fbPassDecoration,
+                name: 'password',
                 obscureText: true,
+                style: fbColorWhite,
                 textAlign: TextAlign.center,
                 textInputAction: TextInputAction.next,
-                name: 'password',
-                decoration: fbPassDecoration,
-                style: const TextStyle(color: bgSignup),
-                controller: _pass,
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
                       errorText: 'No puede estar vacio'),
@@ -75,13 +76,13 @@ class _SignUpFormState extends State<SignUpForm> {
                 height: sizeHeight * 0.025,
               ),
               FormBuilderTextField(
-                name: 'password_confirm',
-                textInputAction: TextInputAction.done,
-                obscureText: true,
-                textAlign: TextAlign.center,
-                decoration: fbPassConfirmDecoration,
-                style: const TextStyle(color: bgSignup),
                 controller: _confirmPass,
+                decoration: fbPassConfirmDecoration,
+                name: 'password_confirm',
+                obscureText: true,
+                style: fbColorWhite,
+                textInputAction: TextInputAction.done,
+                textAlign: TextAlign.center,
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
                       errorText: 'No puede estar vacio'),
@@ -103,7 +104,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       children: const [
                         Text(
                           "Correo ya fue registrado",
-                          style: fbAlert,
+                          style: fbAlertStyle,
                         ),
                         SizedBox(
                           height: 10,
@@ -114,10 +115,7 @@ class _SignUpFormState extends State<SignUpForm> {
               ElevatedButton(
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
+                      radiusBorder),
                 ),
                 onPressed: () {
                   if (_formSignUpKey.currentState!.saveAndValidate()) {
@@ -130,8 +128,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       vertical: sizeHeight * 0.02),
                   child: const Text(
                     'REGISTRARME',
-                    style: TextStyle(
-                        fontSize: 20, fontFamily: 'CocogooseSemiLightItalic'),
+                    style: fbBotonStyle,
                   ),
                 ),
               ),
@@ -140,20 +137,7 @@ class _SignUpFormState extends State<SignUpForm> {
               SizedBox(height: sizeHeight * 0.015),
               SizedBox(
                 height: sizeHeight * 0.05,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image.asset(
-                      "assets/images/logos/google_logo_sinfondo.png",
-                    ),
-                    Image.asset(
-                      "assets/images/logos/facebook_logo_sinfondo.png",
-                    ),
-                    Image.asset(
-                      "assets/images/logos/instagram_logo_sinfondo.png",
-                    ),
-                  ],
-                ),
+                child: const SocialLogin(),
               ),
             ],
           ),
@@ -164,8 +148,8 @@ class _SignUpFormState extends State<SignUpForm> {
 
   Future signUp() async {
     showDialog(
-        context: context,
         barrierDismissible: false,
+        context: context,
         builder: (context) => const Center(child: CircularProgressIndicator()));
 
     try {

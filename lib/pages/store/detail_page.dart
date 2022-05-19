@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:store/models/product_model.dart';
 import 'package:store/pages/store/widgets/clipper_widget.dart';
-import 'dart:math' as math;
+
+import '../../constants.dart';
 
 class DetailPage extends StatefulWidget {
   final ProductModel productModel;
@@ -48,7 +49,7 @@ class _DetailPageState extends State<DetailPage> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          color: Colors.white,
+          color: bgSignup,
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -63,8 +64,7 @@ class _DetailPageState extends State<DetailPage> {
               padding: const EdgeInsets.only(right: 10),
               child: GestureDetector(
                 onTap: () {},
-                child: const Icon(Icons.shopping_bag_outlined,
-                    color: Colors.white),
+                child: const Icon(Icons.shopping_bag_outlined, color: bgSignup),
               )),
         ],
       ),
@@ -79,7 +79,7 @@ class _DetailPageState extends State<DetailPage> {
                 clipper: ClipperWidget(
                     cornerSize: 50, diagonalHeight: 180, roundedBottom: false),
                 child: Container(
-                  color: Colors.white,
+                  color: bgSignup,
                   padding: EdgeInsets.only(
                       top: sizeHeight * 0.22,
                       left: 20,
@@ -109,14 +109,14 @@ class _DetailPageState extends State<DetailPage> {
                             itemPadding: const EdgeInsets.only(right: 3.0),
                             itemBuilder: (context, _) => const Icon(
                               Icons.star,
-                              color: Colors.amber,
+                              color: iStar,
                             ),
                             onRatingUpdate: (rating) {},
                           ),
                           SizedBox(width: sizeWidth * 0.05),
                           const Icon(
                             Icons.circle,
-                            color: Colors.green,
+                            color: iStock,
                             size: 10,
                           ),
                           Padding(
@@ -124,7 +124,7 @@ class _DetailPageState extends State<DetailPage> {
                             child: Text(
                               "${widget.productModel.stock} in stock",
                               style: const TextStyle(
-                                color: Colors.black,
+                                color: bgCardAuth,
                                 fontFamily: 'CocogooseItalicLight',
                                 fontSize: 15,
                               ),
@@ -164,9 +164,9 @@ class _DetailPageState extends State<DetailPage> {
                       Row(
                         children: [
                           colorOption(widget.productModel.color),
-                          colorOption(Colors.black),
-                          colorOption(Colors.amber),
-                          colorOption(Colors.green),
+                          colorOption(bgCardAuth),
+                          colorOption(iStar),
+                          colorOption(iStock),
                         ],
                       )
                     ],
@@ -211,7 +211,7 @@ class _DetailPageState extends State<DetailPage> {
       width: sizeWidth,
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
       decoration: const BoxDecoration(
-          color: Colors.white,
+          color: bgSignup,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30), topRight: Radius.circular(30)),
           boxShadow: [
@@ -232,7 +232,7 @@ class _DetailPageState extends State<DetailPage> {
               Text(
                 "\u0024${widget.productModel.price}",
                 style: const TextStyle(
-                    color: Colors.black,
+                    color: bgCardAuth,
                     fontFamily: 'CocogooseItalic',
                     fontSize: 22),
               ),
@@ -250,7 +250,7 @@ class _DetailPageState extends State<DetailPage> {
               child: Text(
                 "COMPRAR",
                 style: TextStyle(
-                    color: Colors.white,
+                    color: bgSignup,
                     fontFamily: 'CocogooseLight',
                     fontSize: 12),
               ),

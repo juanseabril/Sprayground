@@ -5,8 +5,13 @@ import 'package:flutter/material.dart';
 const Color bgCardAuth = Colors.black;
 const Color bgSignup = Colors.white;
 const Color bgLogin = Color(0xffeb1c23);
+const Color iStock = Colors.green;
+const Color iStar = Colors.amber;
 
 const Duration defaultDuration = Duration(milliseconds: 300);
+
+const RoundedRectangleBorder radiusBorder =
+    RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20)));
 
 /// --- FormBuilder
 
@@ -15,7 +20,10 @@ const TextStyle fbLabelStyle =
     TextStyle(color: bgLogin, fontWeight: FontWeight.bold);
 const TextStyle fbContinue = TextStyle(
     color: Colors.white, fontSize: 15, fontFamily: 'CocogooseSemiLight');
-const TextStyle fbAlert = TextStyle(fontSize: 15, color: bgSignup);
+const TextStyle fbBotonStyle =
+    TextStyle(fontSize: 20, fontFamily: 'CocogooseSemiLightItalic');
+const TextStyle fbAlertStyle = TextStyle(fontSize: 15, color: bgSignup);
+const TextStyle fbColorWhite = TextStyle(color: bgSignup);
 
 const OutlineInputBorder fbEnabledBorder = OutlineInputBorder(
   borderSide: BorderSide(color: bgLogin, width: 3),
@@ -57,3 +65,18 @@ const TextStyle cPriceStyle =
 
 const TextStyle cStockStyle = TextStyle(
     color: bgSignup, fontFamily: 'CocogooseItalicLight', fontSize: 13);
+
+/// --- Store
+
+const TextStyle sTitleStyle = TextStyle(
+  fontFamily: 'CocogooseSemilight',
+  fontSize: 25,
+);
+
+const TextStyle sSTitleStyle = TextStyle(
+  fontFamily: 'CocogooseSemilight',
+  fontSize: 20,
+);
+
+const TextStyle sSeeAllStyle = TextStyle(
+    fontFamily: 'CocogooseSemilight', fontSize: 10, color: Colors.red);

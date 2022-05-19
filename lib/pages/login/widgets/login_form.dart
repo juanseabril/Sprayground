@@ -5,6 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 import '../../../constants.dart';
 import '../../../main.dart';
+import 'social_login.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -24,8 +25,8 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeWidth = MediaQuery.of(context).size.width;
     final sizeHeight = MediaQuery.of(context).size.height;
+    final sizeWidth = MediaQuery.of(context).size.width;
 
     return Center(
       child: FormBuilder(
@@ -40,11 +41,11 @@ class _LoginFormState extends State<LoginForm> {
             mainAxisSize: MainAxisSize.min,
             children: [
               FormBuilderTextField(
+                decoration: fbEmailDecoration,
+                name: 'email',
+                style: fbColorWhite,
                 textAlign: TextAlign.center,
                 textInputAction: TextInputAction.next,
-                name: 'email',
-                decoration: fbEmailDecoration,
-                style: const TextStyle(color: bgSignup),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
                       errorText: 'No puede estar vacio'),
@@ -56,12 +57,12 @@ class _LoginFormState extends State<LoginForm> {
                 height: sizeHeight * 0.035,
               ),
               FormBuilderTextField(
+                decoration: fbPassDecoration,
+                name: 'password',
                 obscureText: true,
+                style: fbColorWhite,
                 textAlign: TextAlign.center,
                 textInputAction: TextInputAction.done,
-                name: 'password',
-                decoration: fbPassDecoration,
-                style: const TextStyle(color: bgSignup),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
                       errorText: 'No puede estar vacio'),
@@ -87,10 +88,9 @@ class _LoginFormState extends State<LoginForm> {
                   : Container(),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  onPrimary: Colors.red,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  onPrimary: bgLogin,
+                  primary: bgSignup,
+                  shape: radiusBorder,
                 ),
                 onPressed: () {
                   if (_formLoginKey.currentState!.saveAndValidate()) {
@@ -105,8 +105,7 @@ class _LoginFormState extends State<LoginForm> {
                       vertical: sizeHeight * 0.02),
                   child: const Text(
                     'INGRESAR',
-                    style: TextStyle(
-                        fontSize: 20, fontFamily: 'CocogooseSemiLightItalic'),
+                    style: fbBotonStyle,
                   ),
                 ),
               ),
@@ -115,20 +114,7 @@ class _LoginFormState extends State<LoginForm> {
               SizedBox(height: sizeHeight * 0.02),
               SizedBox(
                 height: sizeHeight * 0.05,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image.asset(
-                      "assets/images/logos/google_logo_sinfondo.png",
-                    ),
-                    Image.asset(
-                      "assets/images/logos/facebook_logo_sinfondo.png",
-                    ),
-                    Image.asset(
-                      "assets/images/logos/instagram_logo_sinfondo.png",
-                    ),
-                  ],
-                ),
+                child: const SocialLogin(),
               ),
             ],
           ),
@@ -139,8 +125,8 @@ class _LoginFormState extends State<LoginForm> {
 
   Future logIn() async {
     showDialog(
-        context: context,
         barrierDismissible: false,
+        context: context,
         builder: (context) => const Center(child: CircularProgressIndicator()));
 
     try {
@@ -152,7 +138,6 @@ class _LoginFormState extends State<LoginForm> {
       setState(() {
         _isShowAlert = !_isShowAlert;
       });
-
       Navigator.of(context).pop();
       return e;
     }

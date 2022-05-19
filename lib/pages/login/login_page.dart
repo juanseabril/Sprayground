@@ -13,17 +13,18 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    final sizeWidth = MediaQuery.of(context).size.width;
     final sizeHeight = MediaQuery.of(context).size.height;
+    final sizeWidth = MediaQuery.of(context).size.width;
 
     return Container(
+      alignment: Alignment.center,
+      color: bgLogin,
       height: sizeHeight,
       width: sizeWidth,
-      color: bgLogin,
-      alignment: Alignment.center,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
+          /// --- Form
           Padding(
             padding: const EdgeInsets.only(bottom: 150, top: 30),
             child: Column(
@@ -34,16 +35,19 @@ class _LoginPageState extends State<LoginPage> {
                   scale: 1.2,
                 ),
                 Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(35),
+                    color: bgCardAuth,
+                  ),
                   height: sizeHeight * 0.6,
                   width: sizeWidth * 0.7,
-                  decoration: BoxDecoration(
-                      color: bgCardAuth,
-                      borderRadius: BorderRadius.circular(35)),
                   child: const LoginForm(),
                 )
               ],
             ),
           ),
+
+          /// --- Image
           Positioned(
             left: sizeWidth * 0.19,
             top: sizeHeight * 0.15,

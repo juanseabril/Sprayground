@@ -19,7 +19,6 @@ class _StorePageState extends State<StorePage> {
   List<ProductModel> bearList = ProductModel.listBears;
   List<ProductModel> duflesList = ProductModel.listDufles;
   List<ProductModel> timeList = ProductModel.listTime;
-
   bool _isSelected1 = true;
   bool _isSelected2 = false;
   bool _isSelected3 = false;
@@ -28,8 +27,8 @@ class _StorePageState extends State<StorePage> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeWidth = MediaQuery.of(context).size.width;
     final sizeHeight = MediaQuery.of(context).size.height;
+    final sizeWidth = MediaQuery.of(context).size.width;
     final user = FirebaseAuth.instance.currentUser!; // Text(user.email!),
 
     return Scaffold(
@@ -40,7 +39,7 @@ class _StorePageState extends State<StorePage> {
           onDoubleTap: () => FirebaseAuth.instance.signOut(),
           child: const Icon(
             Icons.cancel_outlined,
-            color: Colors.black,
+            color: bgCardAuth,
           ),
         ),
         centerTitle: true,
@@ -48,14 +47,14 @@ class _StorePageState extends State<StorePage> {
           'assets/images/logos/sprayground_logo_red.png',
           scale: 2,
         ),
-        actions: <Widget>[
+        actions: [
           Padding(
               padding: const EdgeInsets.only(right: 10),
               child: GestureDetector(
                 onTap: () {},
                 child: const Icon(
                   Icons.search,
-                  color: Colors.black,
+                  color: bgCardAuth,
                   size: 26,
                 ),
               )),
@@ -63,8 +62,8 @@ class _StorePageState extends State<StorePage> {
               padding: const EdgeInsets.only(right: 10),
               child: GestureDetector(
                 onTap: () {},
-                child: const Icon(Icons.shopping_bag_outlined,
-                    color: Colors.black),
+                child:
+                    const Icon(Icons.shopping_bag_outlined, color: bgCardAuth),
               )),
         ],
       ),
@@ -75,14 +74,13 @@ class _StorePageState extends State<StorePage> {
             children: [
               const Text(
                 "Ediciones Limitadas \u{1F525}",
-                style: TextStyle(
-                  fontFamily: 'CocogooseSemilight',
-                  fontSize: 25,
-                ),
+                style: sTitleStyle,
               ),
               SizedBox(
                 height: sizeHeight * 0.03,
               ),
+
+              /// --- Button Rows
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -107,17 +105,11 @@ class _StorePageState extends State<StorePage> {
                 children: const [
                   Text(
                     "Ultimas Unidades \u23f0",
-                    style: TextStyle(
-                      fontFamily: 'CocogooseSemilight',
-                      fontSize: 20,
-                    ),
+                    style: sSTitleStyle,
                   ),
                   Text(
                     "VER TODO",
-                    style: TextStyle(
-                        fontFamily: 'CocogooseSemilight',
-                        fontSize: 10,
-                        color: Colors.red),
+                    style: sSeeAllStyle,
                   )
                 ],
               ),
@@ -134,8 +126,9 @@ class _StorePageState extends State<StorePage> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: data.color,
-                          borderRadius: BorderRadius.circular(35)),
+                        borderRadius: BorderRadius.circular(35),
+                        color: data.color,
+                      ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: sizeWidth * 0.05,
@@ -145,8 +138,8 @@ class _StorePageState extends State<StorePage> {
                           children: [
                             Image.asset(
                               data.imgPath,
-                              width: sizeWidth * 0.2,
                               height: sizeHeight * 0.11,
+                              width: sizeWidth * 0.2,
                             ),
                             SizedBox(
                               width: sizeWidth * 0.35,
@@ -159,7 +152,7 @@ class _StorePageState extends State<StorePage> {
                                     style: const TextStyle(
                                       fontFamily: 'CocogooseSemilight',
                                       fontSize: 16,
-                                      color: Colors.white,
+                                      color: bgSignup,
                                     ),
                                   ),
                                   SizedBox(
@@ -170,7 +163,7 @@ class _StorePageState extends State<StorePage> {
                                     style: const TextStyle(
                                       fontFamily: 'CocogooseSemilightItalic',
                                       fontSize: 12,
-                                      color: Colors.white,
+                                      color: bgSignup,
                                     ),
                                   )
                                 ],
@@ -225,8 +218,8 @@ class _StorePageState extends State<StorePage> {
       height: sizeHeight * 0.42,
       child: ListView.builder(
         itemCount: list.length,
-        scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
@@ -236,6 +229,8 @@ class _StorePageState extends State<StorePage> {
             child: Stack(
               children: [
                 _buildBackground(index, sizeWidth, sizeHeight, list),
+
+                /// --- Image
                 Positioned(
                   bottom: posBottom,
                   left: posLeft,
@@ -292,7 +287,7 @@ class _StorePageState extends State<StorePage> {
                         const Expanded(child: SizedBox()),
                         const Icon(
                           Icons.circle,
-                          color: Colors.green,
+                          color: iStock,
                           size: 10,
                         ),
                         Padding(
@@ -318,18 +313,16 @@ class _StorePageState extends State<StorePage> {
       child: ElevatedButton(
         style: select
             ? ElevatedButton.styleFrom(
-                primary: Colors.white,
-                onPrimary: Colors.red,
-                side: const BorderSide(color: Colors.red, width: 4),
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                primary: bgSignup,
+                onPrimary: bgLogin,
+                side: const BorderSide(color: bgLogin, width: 4),
+                shape: radiusBorder,
               )
             : ElevatedButton.styleFrom(
-                primary: Colors.white,
-                onPrimary: Colors.black,
-                side: const BorderSide(color: Colors.black, width: 2),
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                primary: bgSignup,
+                onPrimary: bgCardAuth,
+                side: const BorderSide(color: bgCardAuth, width: 2),
+                shape: radiusBorder,
               ),
         onPressed: () {
           if (text == "Dufles") {
