@@ -3,20 +3,31 @@ import 'package:flutter/material.dart';
 class ClipperWidget extends CustomClipper<Path> {
   final double cornerSize;
   final double diagonalHeight;
-  ClipperWidget({required this.cornerSize, required this.diagonalHeight});
+  final bool roundedBottom;
+
+  ClipperWidget(
+      {required this.cornerSize,
+      required this.diagonalHeight,
+      this.roundedBottom = true});
 
   @override
   Path getClip(Size size) {
     Path path = Path();
 
     path.moveTo(0, cornerSize * 1.5);
-    path.lineTo(0, size.height - cornerSize);
-    path.quadraticBezierTo(0, size.height, cornerSize, size.height);
-    path.lineTo(size.width - cornerSize, size.height);
-    path.quadraticBezierTo(
-        size.width, size.height, size.width, size.height - cornerSize);
-    path.quadraticBezierTo(
-        size.width, size.height, size.width, size.height - cornerSize);
+    path.lineTo(0, size.height - (roundedBottom ? cornerSize : 0));
+
+    if (roundedBottom) {
+      path.quadraticBezierTo(0, size.height, cornerSize, size.height);
+    }
+
+    path.lineTo(size.width - (roundedBottom ? cornerSize : 0), size.height);
+
+    if (roundedBottom) {
+      path.quadraticBezierTo(
+          size.width, size.height, size.width, size.height - cornerSize);
+    }
+
     path.lineTo(size.width, diagonalHeight + cornerSize);
     path.quadraticBezierTo(size.width, diagonalHeight, size.width - cornerSize,
         diagonalHeight * 0.9);

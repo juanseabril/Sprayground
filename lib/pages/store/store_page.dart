@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:store/models/product_model.dart';
+import 'package:store/pages/store/detail_page.dart';
 import 'dart:math' as math;
 
 import '../../constants.dart';
-import '../../widgets/clipper_widget.dart';
+import 'widgets/clipper_widget.dart';
 
 class StorePage extends StatefulWidget {
   const StorePage({Key? key}) : super(key: key);
@@ -17,8 +18,7 @@ class _StorePageState extends State<StorePage> {
   List<ProductModel> bagList = ProductModel.listBags;
   List<ProductModel> bearList = ProductModel.listBears;
   List<ProductModel> duflesList = ProductModel.listDufles;
-
-  int _idCategory = 1;
+  List<ProductModel> timeList = ProductModel.listTime;
 
   bool _isSelected1 = true;
   bool _isSelected2 = false;
@@ -70,7 +70,7 @@ class _StorePageState extends State<StorePage> {
       ),
       body: ListView(children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(
             children: [
               const Text(
@@ -96,7 +96,7 @@ class _StorePageState extends State<StorePage> {
                 ),
               ),
               SizedBox(
-                height: sizeHeight * 0.03,
+                height: sizeHeight * 0.025,
               ),
               isCategory(sizeHeight, sizeWidth),
               SizedBox(
@@ -120,7 +120,70 @@ class _StorePageState extends State<StorePage> {
                         color: Colors.red),
                   )
                 ],
-              )
+              ),
+              SizedBox(
+                height: sizeHeight * 0.02,
+              ),
+              ...timeList.map((data) {
+                return Padding(
+                  padding: EdgeInsets.only(bottom: sizeHeight * 0.015),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => DetailPage(productModel: data)));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: data.color,
+                          borderRadius: BorderRadius.circular(35)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: sizeWidth * 0.05,
+                            vertical: sizeHeight * 0.008),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset(
+                              data.imgPath,
+                              width: sizeWidth * 0.2,
+                              height: sizeHeight * 0.11,
+                            ),
+                            SizedBox(
+                              width: sizeWidth * 0.35,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    data.name,
+                                    style: const TextStyle(
+                                      fontFamily: 'CocogooseSemilight',
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: sizeHeight * 0.01,
+                                  ),
+                                  Text(
+                                    data.category,
+                                    style: const TextStyle(
+                                      fontFamily: 'CocogooseSemilightItalic',
+                                      fontSize: 12,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Text("\u0024${data.price}", style: cPriceStyle),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              })
             ],
           ),
         ),
@@ -149,7 +212,7 @@ class _StorePageState extends State<StorePage> {
                 sizeWidth,
                 duflesList,
                 0,
-                sizeHeight * 0.19,
+                sizeHeight * 0.20,
               ) //lista dufles
             : Container(),
       ],
@@ -165,21 +228,28 @@ class _StorePageState extends State<StorePage> {
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
-          return Stack(
-            children: [
-              _buildBackground(index, sizeWidth, sizeHeight, list),
-              Positioned(
-                bottom: posBottom,
-                left: posLeft,
-                child: Transform.rotate(
-                  angle: _isSelected4 ? -math.pi / 5 : math.pi / 15,
-                  child: Image.asset(
-                    list[index].imgPath,
-                    height: _isSelected4 ? sizeHeight * 0.2 : sizeHeight * 0.28,
+          return GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => DetailPage(productModel: list[index])));
+            },
+            child: Stack(
+              children: [
+                _buildBackground(index, sizeWidth, sizeHeight, list),
+                Positioned(
+                  bottom: posBottom,
+                  left: posLeft,
+                  child: Transform.rotate(
+                    angle: _isSelected4 ? -math.pi / 5 : math.pi / 15,
+                    child: Image.asset(
+                      list[index].imgPath,
+                      height:
+                          _isSelected4 ? sizeHeight * 0.2 : sizeHeight * 0.28,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),
@@ -264,43 +334,31 @@ class _StorePageState extends State<StorePage> {
         onPressed: () {
           if (text == "Dufles") {
             setState(() {
-              _idCategory = 4;
-
               _isSelected1 = false;
               _isSelected2 = false;
               _isSelected3 = false;
               _isSelected4 = true;
-              print(_idCategory);
             });
           } else if (text == "Bags") {
             setState(() {
-              _idCategory = 3;
-
               _isSelected1 = false;
               _isSelected2 = false;
               _isSelected3 = true;
               _isSelected4 = false;
-              print(_idCategory);
             });
           } else if (text == "Bears") {
             setState(() {
-              _idCategory = 2;
-
               _isSelected1 = false;
               _isSelected2 = true;
               _isSelected3 = false;
               _isSelected4 = false;
-              print(_idCategory);
             });
           } else {
             setState(() {
-              _idCategory = 1;
-
               _isSelected1 = true;
               _isSelected2 = false;
               _isSelected3 = false;
               _isSelected4 = false;
-              print(_idCategory);
             });
           }
         },
