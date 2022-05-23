@@ -2,9 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:store/models/product_model.dart';
 import 'package:store/pages/store/detail_page.dart';
+import 'package:store/pages/store/widgets/search_delegate_widget.dart';
 import 'dart:math' as math;
 
 import '../../constants.dart';
+import '../../services/post_services.dart';
 import 'widgets/clipper_widget.dart';
 
 class StorePage extends StatefulWidget {
@@ -15,15 +17,66 @@ class StorePage extends StatefulWidget {
 }
 
 class _StorePageState extends State<StorePage> {
-  List<ProductModel> bagList = ProductModel.listBags;
-  List<ProductModel> bearList = ProductModel.listBears;
-  List<ProductModel> duflesList = ProductModel.listDufles;
-  List<ProductModel> timeList = ProductModel.listTime;
   bool _isSelected1 = true;
   bool _isSelected2 = false;
   bool _isSelected3 = false;
   bool _isSelected4 = false;
   final bool _isSelected5 = false;
+
+  late List<Product>? _productsList = [];
+  late List<Product>? _bagsList = [];
+  late List<Product>? _bearsList = [];
+  late List<Product>? _duflesList = [];
+  late List<Product>? _promoList = [];
+  late List<String>? _namesList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _getProducts();
+    _getBags();
+    _getBears();
+    _getDufle();
+    _getPromo();
+    _getNames();
+  }
+
+  void _getProducts() async {
+    _productsList = (await ApiService().getAllProducts());
+    Future.delayed(const Duration(milliseconds: 300))
+        .then((value) => setState(() {}));
+  }
+
+  void _getBags() async {
+    _bagsList = (await ApiService().getCategories('Bag'));
+    Future.delayed(const Duration(milliseconds: 300))
+        .then((value) => setState(() {}));
+  }
+
+  void _getBears() async {
+    _bearsList = (await ApiService().getCategories('Bear'));
+    Future.delayed(const Duration(milliseconds: 300))
+        .then((value) => setState(() {}));
+  }
+
+  void _getDufle() async {
+    _duflesList = (await ApiService().getCategories('Dufle'));
+    Future.delayed(const Duration(milliseconds: 300))
+        .then((value) => setState(() {}));
+  }
+
+  void _getPromo() async {
+    _promoList = (await ApiService().getPromo());
+    Future.delayed(const Duration(milliseconds: 300))
+        .then((value) => setState(() {}));
+  }
+
+  void _getNames() async {
+    _namesList = (await ApiService().getNames())!.cast<String>();
+    _namesList!.sort((String a, String b) => a.compareTo(b));
+    Future.delayed(const Duration(milliseconds: 300))
+        .then((value) => setState(() {}));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +102,25 @@ class _StorePageState extends State<StorePage> {
         ),
         actions: [
           Padding(
-              padding: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 7),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  showSearch(
+                      context: context,
+                      delegate: SearchProductDelegate(_namesList!));
+                },
                 child: const Icon(
                   Icons.search,
                   color: bgCardAuth,
                   size: 26,
                 ),
+              )),
+          Padding(
+              padding: const EdgeInsets.only(right: 7),
+              child: GestureDetector(
+                onTap: () {},
+                child:
+                    const Icon(Icons.add_business_outlined, color: bgCardAuth),
               )),
           Padding(
               padding: const EdgeInsets.only(right: 10),
@@ -116,18 +180,22 @@ class _StorePageState extends State<StorePage> {
               SizedBox(
                 height: sizeHeight * 0.02,
               ),
-              ...timeList.map((data) {
+              ..._promoList!.map((data) {
+                var color = int.parse("0xff${data.productColor}");
                 return Padding(
                   padding: EdgeInsets.only(bottom: sizeHeight * 0.015),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => DetailPage(productModel: data)));
+                          builder: (_) => DetailPage(
+                                productModel: data,
+                                productName: "x",
+                              )));
                     },
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(35),
-                        color: data.color,
+                        color: Color(color),
                       ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
@@ -137,7 +205,7 @@ class _StorePageState extends State<StorePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Image.asset(
-                              data.imgPath,
+                              data.productImgPath,
                               height: sizeHeight * 0.11,
                               width: sizeWidth * 0.2,
                             ),
@@ -148,7 +216,7 @@ class _StorePageState extends State<StorePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    data.name,
+                                    data.productName,
                                     style: const TextStyle(
                                       fontFamily: 'CocogooseSemilight',
                                       fontSize: 16,
@@ -159,7 +227,7 @@ class _StorePageState extends State<StorePage> {
                                     height: sizeHeight * 0.01,
                                   ),
                                   Text(
-                                    data.category,
+                                    data.productCategory,
                                     style: const TextStyle(
                                       fontFamily: 'CocogooseSemilightItalic',
                                       fontSize: 12,
@@ -169,7 +237,8 @@ class _StorePageState extends State<StorePage> {
                                 ],
                               ),
                             ),
-                            Text("\u0024${data.price}", style: cPriceStyle),
+                            Text("\u0024${data.productPrice}",
+                                style: cPriceStyle),
                           ],
                         ),
                       ),
@@ -188,22 +257,22 @@ class _StorePageState extends State<StorePage> {
     return Column(
       children: [
         _isSelected1
-            ? showCategory(sizeHeight, sizeWidth, bagList, sizeWidth * 0.14,
-                sizeHeight * 0.13) //lista completa
+            ? showCategory(sizeHeight, sizeWidth, _productsList!,
+                sizeWidth * 0.14, sizeHeight * 0.13) //lista completa
             : Container(),
         _isSelected2
-            ? showCategory(sizeHeight, sizeWidth, bearList, sizeWidth * 0.08,
+            ? showCategory(sizeHeight, sizeWidth, _bearsList!, sizeWidth * 0.08,
                 sizeHeight * 0.13)
             : Container(),
         _isSelected3
-            ? showCategory(sizeHeight, sizeWidth, bagList, sizeWidth * 0.14,
+            ? showCategory(sizeHeight, sizeWidth, _bagsList!, sizeWidth * 0.14,
                 sizeHeight * 0.13)
             : Container(),
         _isSelected4
             ? showCategory(
                 sizeHeight,
                 sizeWidth,
-                duflesList,
+                _duflesList!,
                 0,
                 sizeHeight * 0.20,
               ) //lista dufles
@@ -212,8 +281,8 @@ class _StorePageState extends State<StorePage> {
     );
   }
 
-  SizedBox showCategory(double sizeHeight, double sizeWidth,
-      List<ProductModel> list, double posLeft, double posBottom) {
+  SizedBox showCategory(double sizeHeight, double sizeWidth, List<Product> list,
+      double posLeft, double posBottom) {
     return SizedBox(
       height: sizeHeight * 0.42,
       child: ListView.builder(
@@ -224,7 +293,10 @@ class _StorePageState extends State<StorePage> {
           return GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => DetailPage(productModel: list[index])));
+                  builder: (_) => DetailPage(
+                        productModel: list[index],
+                        productName: "x",
+                      )));
             },
             child: Stack(
               children: [
@@ -237,9 +309,9 @@ class _StorePageState extends State<StorePage> {
                   child: Transform.rotate(
                     angle: _isSelected4 ? -math.pi / 5 : math.pi / 15,
                     child: Image.asset(
-                      list[index].imgPath,
+                      list[index].productImgPath,
                       height:
-                          _isSelected4 ? sizeHeight * 0.2 : sizeHeight * 0.28,
+                          _isSelected4 ? sizeHeight * 0.17 : sizeHeight * 0.28,
                     ),
                   ),
                 ),
@@ -252,7 +324,8 @@ class _StorePageState extends State<StorePage> {
   }
 
   Widget _buildBackground(
-      int index, double sizeWidth, double sizeHeight, List<ProductModel> list) {
+      int index, double sizeWidth, double sizeHeight, List<Product> list) {
+    var color = int.parse("0xff${list[index].productColor}");
     return Padding(
       padding: const EdgeInsets.only(right: 16, top: 40),
       child: SizedBox(
@@ -260,7 +333,7 @@ class _StorePageState extends State<StorePage> {
         child: ClipPath(
           clipper: ClipperWidget(cornerSize: 25, diagonalHeight: 110),
           child: Container(
-            color: list[index].color,
+            color: Color(color),
             width: sizeWidth * 0.5,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
@@ -271,7 +344,7 @@ class _StorePageState extends State<StorePage> {
                     Padding(
                       padding: EdgeInsets.only(right: sizeWidth * 0.15),
                       child: Text(
-                        list[index].name,
+                        list[index].productName,
                         style: cNameStyle,
                       ),
                     ),
@@ -281,7 +354,7 @@ class _StorePageState extends State<StorePage> {
                     Row(
                       children: [
                         Text(
-                          "\u0024${list[index].price}",
+                          "\u0024${list[index].productPrice}",
                           style: cPriceStyle,
                         ),
                         const Expanded(child: SizedBox()),
@@ -293,7 +366,7 @@ class _StorePageState extends State<StorePage> {
                         Padding(
                           padding: const EdgeInsets.only(left: 3),
                           child: Text(
-                            "${list[index].stock} in stock",
+                            "${list[index].productStock} in stock",
                             style: cStockStyle,
                           ),
                         )

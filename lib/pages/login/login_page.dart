@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
 
           /// --- Image
           Positioned(
-            left: sizeWidth * 0.19,
+            left: sizeWidth * 0.2,
             top: sizeHeight * 0.15,
             child: Image.asset(
               "assets/images/logos/sprayground_logo_sinfondo.png",

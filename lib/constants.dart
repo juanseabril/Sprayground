@@ -19,7 +19,7 @@ const TextStyle fbFloatingLabelStyle = TextStyle(fontSize: 20, color: bgSignup);
 const TextStyle fbLabelStyle =
     TextStyle(color: bgLogin, fontWeight: FontWeight.bold);
 const TextStyle fbContinue = TextStyle(
-    color: Colors.white, fontSize: 15, fontFamily: 'CocogooseSemiLight');
+    color: Colors.white, fontSize: 12, fontFamily: 'CocogooseSemiLight');
 const TextStyle fbBotonStyle =
     TextStyle(fontSize: 20, fontFamily: 'CocogooseSemiLightItalic');
 const TextStyle fbAlertStyle = TextStyle(fontSize: 15, color: bgSignup);

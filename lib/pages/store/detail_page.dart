@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:store/models/product_byname.dart';
 import 'package:store/models/product_model.dart';
 import 'package:store/pages/store/widgets/clipper_widget.dart';
 
 import '../../constants.dart';
+import '../../services/post_services.dart';
 
 class DetailPage extends StatefulWidget {
-  final ProductModel productModel;
+  final Product productModel;
+  final String productName;
 
-  const DetailPage({super.key, required this.productModel});
+  const DetailPage(
+      {super.key, required this.productModel, required this.productName});
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -18,15 +22,23 @@ class _DetailPageState extends State<DetailPage> {
   late bool _isSelected2;
   late bool _isSelected3;
   late bool _isSelected4;
+  bool _flag = false;
+
+  ProductByName? _product;
 
   @override
   void initState() {
     super.initState();
-    if (widget.productModel.category == 'Dufle') {
+    if (widget.productName != "x") {
+      _flag = true;
+      _getData();
+    }
+
+    if (widget.productModel.productCategory == 'Dufle') {
       _isSelected2 = false;
       _isSelected3 = false;
       _isSelected4 = true;
-    } else if (widget.productModel.category == 'Bear') {
+    } else if (widget.productModel.productCategory == 'Bear') {
       _isSelected2 = true;
       _isSelected3 = false;
       _isSelected4 = false;
@@ -37,13 +49,23 @@ class _DetailPageState extends State<DetailPage> {
     }
   }
 
+  void _getData() async {
+    _product = (await ApiService().getProductByName(widget.productName));
+
+    print("----------------");
+    print(_product?.productCategory);
+    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+  }
+
   @override
   Widget build(BuildContext context) {
     final sizeWidth = MediaQuery.of(context).size.width;
     final sizeHeight = MediaQuery.of(context).size.height;
-
+    var color = _flag
+        ? int.parse("0xff${_product!.productColor}")
+        : int.parse("0xff${widget.productModel.productColor}");
     return Scaffold(
-      backgroundColor: widget.productModel.color,
+      backgroundColor: Color(color),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -92,7 +114,9 @@ class _DetailPageState extends State<DetailPage> {
                       SizedBox(
                         width: sizeWidth * 0.6,
                         child: Text(
-                          widget.productModel.name,
+                          _flag
+                              ? _product!.productName
+                              : widget.productModel.productName,
                           style: const TextStyle(
                               fontFamily: 'CocogooseSemilight', fontSize: 30),
                         ),
@@ -122,7 +146,9 @@ class _DetailPageState extends State<DetailPage> {
                           Padding(
                             padding: const EdgeInsets.only(left: 3),
                             child: Text(
-                              "${widget.productModel.stock} in stock",
+                              _flag
+                                  ? "${_product!.productStock} in stock"
+                                  : "${widget.productModel.productStock} in stock",
                               style: const TextStyle(
                                 color: bgCardAuth,
                                 fontFamily: 'CocogooseItalicLight',
@@ -141,17 +167,19 @@ class _DetailPageState extends State<DetailPage> {
                             fontFamily: 'CocogooseSemilight', fontSize: 14),
                       ),
                       SizedBox(
-                        height: sizeHeight * 0.02,
+                        height: sizeHeight * 0.01,
                       ),
                       Text(
-                        widget.productModel.desc,
+                        _flag
+                            ? _product!.productDescription
+                            : widget.productModel.productDescription,
                         style: const TextStyle(
                             fontFamily: 'CocogooseSemilight',
                             fontSize: 12,
                             color: Colors.black38),
                       ),
                       SizedBox(
-                        height: sizeHeight * 0.038,
+                        height: sizeHeight * 0.025,
                       ),
                       const Text(
                         "COLORES",
@@ -163,7 +191,7 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                       Row(
                         children: [
-                          colorOption(widget.productModel.color),
+                          colorOption(Color(color)),
                           colorOption(bgCardAuth),
                           colorOption(iStar),
                           colorOption(iStock),
@@ -200,13 +228,16 @@ class _DetailPageState extends State<DetailPage> {
         child: Image(
           width: width,
           height: height,
-          image: AssetImage(widget.productModel.imgPath),
+          image: AssetImage(widget.productModel.productImgPath),
         ));
   }
 
   Widget buildBottom() {
     final sizeWidth = MediaQuery.of(context).size.width;
 
+    var color = _flag
+        ? int.parse("0xff${_product!.productColor}")
+        : int.parse("0xff${widget.productModel.productColor}");
     return Container(
       width: sizeWidth,
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
@@ -230,7 +261,9 @@ class _DetailPageState extends State<DetailPage> {
                       fontSize: 11,
                       color: Colors.black38)),
               Text(
-                "\u0024${widget.productModel.price}",
+                _flag
+                    ? "\u0024${_product!.productPrice}"
+                    : "\u0024${widget.productModel.productPrice}",
                 style: const TextStyle(
                     color: bgCardAuth,
                     fontFamily: 'CocogooseItalic',
@@ -240,7 +273,7 @@ class _DetailPageState extends State<DetailPage> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: widget.productModel.color,
+              primary: Color(color),
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20))),
             ),

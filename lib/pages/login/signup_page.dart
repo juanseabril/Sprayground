@@ -49,7 +49,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
           /// --- Image
           Positioned(
-            left: sizeWidth * 0.19,
+            left: sizeWidth * 0.21,
             top: sizeHeight * 0.15,
             child: Image.asset(
               "assets/images/logos/sprayground_logo_sinfondo.png",
